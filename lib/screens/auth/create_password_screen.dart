@@ -200,7 +200,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                 ),
                 SizedBox(height: size.height * 0.06),
 
-                // Previous and Submit buttons
+                // Back and Submit buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
