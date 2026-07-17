@@ -210,7 +210,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Go back to Office Interests
-                          Navigator.pushReplacementNamed(context, Routes.officeInterests);
+                          Navigator.pop(context, Routes.officeInterests);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.white,
