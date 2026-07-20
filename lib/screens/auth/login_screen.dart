@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../config/routes.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../utils/responsive.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Image.asset(
                       'assets/wlogo.png',
-                      height: 32,
+                      height: context.rh(32),
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(width: 8),
@@ -62,13 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Main Heading (serif, italic) — match Figma: "Your Space,\nOur Services"
                 Text(
                   'Welcome\nback,',
-                  style: GoogleFonts.newsreader(
-                    textStyle: const TextStyle(
-                      color: AppTheme.white,
-                    ),
-                    fontSize: 59,
+                  style: AppTheme.newsreader(
+                    fontSize: context.rf(59, minScale: 0.6, maxScale: 1.0),
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.w400,
+                    color: AppTheme.white,
                     height: 1,
                   ),
                 ),
@@ -77,12 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Subtitle / description
                 Text(
                   'Manage your office space through one place via the sub800 app',
-                  style: GoogleFonts.dmSans(
-                    textStyle: AppTheme.bodySmall.copyWith(
-                    color: AppTheme.lightGray,
-                    fontSize: 16,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(16),
                     fontWeight: FontWeight.w400,
-                    ),
+                    color: AppTheme.lightGray,
                   ),
                 ),
                 SizedBox(height: size.height * 0.06),
@@ -99,19 +95,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Email Input
             SizedBox(
-              height: 35,
+              height: context.rh(42),
               child:TextField(
                   controller: _emailController,
                   style: AppTheme.bodyRegular,
                   cursorColor: AppTheme.white,
                   decoration: InputDecoration(
                     hintText: 'Email',
-                    hintStyle: GoogleFonts.dmSans(
-                      textStyle: AppTheme.bodySmall.copyWith(
-                        color: AppTheme.white.withValues(alpha: 0.9),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    hintStyle: AppTheme.dmSans(
+                      fontSize: context.rf(16),
+                      fontWeight: FontWeight.w400,
+                      color: AppTheme.white.withValues(alpha: 0.9),
                     ),
                     filled: true,
                     fillColor: AppTheme.appTheme.withValues(alpha: 0.5),
@@ -157,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Password Input
             SizedBox(
-              height: 35,
+              height: context.rh(42),
               child: TextField(
                   controller: _passwordController,
                   style: AppTheme.bodyRegular,
@@ -165,12 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: AppTheme.white,
                   decoration: InputDecoration(
                     hintText: 'sub800 Provided Code',
-                    hintStyle: GoogleFonts.dmSans(
-                      textStyle: AppTheme.bodySmall.copyWith(
-                        color: AppTheme.white.withValues(alpha: 0.9),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
+                    hintStyle: AppTheme.dmSans(
+                      fontSize: context.rf(16),
+                      fontWeight: FontWeight.w400,
+                      color: AppTheme.white.withValues(alpha: 0.9),
                     ),
                     filled: true,
                     fillColor: AppTheme.appTheme.withValues(alpha: 0.5),
@@ -225,10 +217,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 // SizedBox(height: size.height * 0.06),
 
                 // Login Button
-                SizedBox(
-                  width: 185,
-                  height: 37,
-                  child: ElevatedButton(
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: size.width * 0.55,
+                    height: context.rh(40),
+                    child: ElevatedButton(
                     onPressed: () {
                       // Navigate to Home screen after login
                       Navigator.pushReplacementNamed(context, Routes.home);
@@ -244,11 +238,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Log In',
                       style: AppTheme.buttonText.copyWith(
                         color: AppTheme.primaryTeal,
-                        fontSize: 13,
+                        fontSize: context.rf(13),
                         fontWeight: FontWeight.w400,
                       ),
                      ),
                    ),
+                  ),
                 ),
                 SizedBox(height: size.height * 0.05),
 
@@ -261,32 +256,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: size.height * 0.05),
 
                 // Create Account Button
-                SizedBox(
-                  width: 185,
-                  height: 37,
-                  child: ElevatedButton(
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: size.width * 0.55,
+                    height: context.rh(40),
+                    child: ElevatedButton(
                     onPressed: () {
                       // Navigate to create account screen
                       Navigator.pushNamed(context, '/create_account');
                     },
-                    style: ElevatedButton.styleFrom(
-                      textStyle: GoogleFonts.dmSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      backgroundColor: AppTheme.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                      elevation: 2,
-                    ),
+                     style: ElevatedButton.styleFrom(
+                       backgroundColor: AppTheme.white,
+                       shape: RoundedRectangleBorder(
+                         borderRadius: BorderRadius.circular(0),
+                       ),
+                       elevation: 2,
+                     ),
                     child: Text(
                       'Create Account',
                       style: AppTheme.buttonText.copyWith(
                         color: AppTheme.primaryTeal,
-                        fontSize: 12,
+                        fontSize: context.rf(12),
                       ),
                     ),
+                  ),
                   ),
                 ),
               ],

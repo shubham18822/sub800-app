@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../config/theme.dart';
 import '../../models/category_model.dart';
+import '../../utils/responsive.dart';
+import '../../widgets/app_logo.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -37,20 +38,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 // Top row: logo left + search field center + close button right
                 Row(
                   children: [
-                    Image.asset('assets/wlogo.png', height: 32, fit: BoxFit.contain),
-                    const SizedBox(width: 12),
+                    const AppLogo(),
+                    SizedBox(width: context.rw(12)),
                     Expanded(
                       child: Container(
-                        height: 42,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        height: context.rh(42),
+                        padding: EdgeInsets.symmetric(horizontal: context.rw(12)),
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(context.rw(20)),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.search, size: 18, color: Colors.grey),
-                            const SizedBox(width: 8),
+                            Icon(Icons.search, size: context.rw(18), color: Colors.grey),
+                            SizedBox(width: context.rw(8)),
                             Expanded(
                               child: TextField(
                                 controller: _searchController,
@@ -58,31 +59,31 @@ class _SearchScreenState extends State<SearchScreen> {
                                 decoration: InputDecoration(
                                   hintText: 'Search here',
                                   border: InputBorder.none,
-                                  hintStyle: GoogleFonts.dmSans(
-                                    fontSize: 14,
-                                    color: Colors.grey[500],
+                                  hintStyle: AppTheme.dmSans(
+                                    fontSize: context.rf(14),
+                                    color: Colors.grey[500] ?? Colors.grey,
                                   ),
                                 ),
-                                style: GoogleFonts.dmSans(fontSize: 14, color: Colors.black87),
+                                style: AppTheme.dmSans(fontSize: context.rf(14), color: Colors.black87),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: context.rw(8)),
                     GestureDetector(
                       onTap: () => Navigator.of(context).pop(),
                       child: Container(
-                        width: 36,
-                        height: 36,
+                        width: context.rw(36),
+                        height: context.rw(36),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(context.rw(18)),
                           border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
                         ),
-                        child: const Center(
-                          child: Icon(Icons.close, size: 18, color: Colors.black54),
+                        child: Center(
+                          child: Icon(Icons.close, size: context.rw(18), color: Colors.black54),
                         ),
                       ),
                     )
@@ -94,11 +95,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 // Welcome heading
                 Text(
                   'Welcome back, Lauren',
-                  style: GoogleFonts.newsreader(
-                    textStyle: const TextStyle(color: AppTheme.primaryTeal),
-                    fontSize: 24,
+                  style: AppTheme.newsreader(
+                    fontSize: context.rf(24),
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.w400,
+                    color: AppTheme.primaryTeal,
                   ),
                 ),
 
@@ -110,8 +111,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   children: [
                     Text(
                       'Shop Categories',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(14),
                         fontWeight: FontWeight.w500,
                         color: Colors.black87,
                       ),
@@ -120,12 +121,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       onTap: () {},
                       child: Text(
                         'See all',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 12,
+                        style: AppTheme.dmSans(
+                          fontSize: context.rf(12),
                           fontWeight: FontWeight.w400,
-                          color: Colors.grey[600],
-                          decoration: TextDecoration.underline,
-                        ),
+                          color: Colors.grey[600] ?? Colors.grey,
+                        ).copyWith(decoration: TextDecoration.underline),
                       ),
                     ),
                   ],
@@ -135,14 +135,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 // Categories (horizontal scrolling)
                 SizedBox(
-                  height: 115,
+                  height: context.rh(115),
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: mockCategories.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    separatorBuilder: (_, __) => SizedBox(width: context.rw(8)),
                     itemBuilder: (context, index) {
                       final category = mockCategories[index];
-                      return _buildCategoryItem(category);
+                      return _buildCategoryItem(context, category);
                     },
                   ),
                 ),
@@ -152,8 +152,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 // New Arrivals heading
                 Text(
                   'New Arrivals',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(15),
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
@@ -161,10 +161,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 const SizedBox(height: 4),
                 Text(
                   'Discover the newest addition to your office well being',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(12),
                     fontWeight: FontWeight.w400,
-                    color: Colors.grey[600],
+                    color: Colors.grey[600] ?? Colors.grey,
                   ),
                 ),
 
@@ -172,14 +172,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 // Horizontal product cards
                 SizedBox(
-                  height: 220,
+                  height: context.rh(220),
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: mockProducts.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    separatorBuilder: (_, __) => SizedBox(width: context.rw(10)),
                     itemBuilder: (context, index) {
                       final product = mockProducts[index];
-                      return _buildProductCard(product);
+                      return _buildProductCard(context, product);
                     },
                   ),
                 ),
@@ -188,7 +188,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 // Promotional banners (2 side by side)
                 SizedBox(
-                  height: 180,
+                  height: context.rh(180),
                   child: Row(
                     children: [
                       // Left banner (beige/tan)
@@ -201,17 +201,17 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.all(context.rw(16)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: 140,
+                                      width: context.rw(140),
                                       child: Text(
                                         'Explore Signature Scents for Your Office',
-                                        style: GoogleFonts.newsreader(
-                                          fontSize: 16,
+                                        style: AppTheme.newsreader(
+                                          fontSize: context.rf(16),
                                           fontStyle: FontStyle.italic,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w400,
@@ -220,22 +220,22 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     Text(
                                       'Bring a sense of calm to your workspace',
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 11,
+                                      style: AppTheme.dmSans(
+                                        fontSize: context.rf(11),
                                         color: Colors.white.withValues(alpha: 0.9),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      padding: EdgeInsets.symmetric(horizontal: context.rw(10), vertical: context.rh(6)),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       child: Text(
                                         'Discover',
-                                        style: GoogleFonts.dmSans(
-                                          fontSize: 11,
+                                        style: AppTheme.dmSans(
+                                          fontSize: context.rf(11),
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black87,
                                         ),
@@ -248,7 +248,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: context.rw(10)),
                       // Right banner (dark blue/black)
                       Expanded(
                         child: Container(
@@ -259,17 +259,17 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.all(context.rw(16)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: 140,
+                                      width: context.rw(140),
                                       child: Text(
                                         'New Collection Now Available',
-                                        style: GoogleFonts.newsreader(
-                                          fontSize: 16,
+                                        style: AppTheme.newsreader(
+                                          fontSize: context.rf(16),
                                           fontStyle: FontStyle.italic,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w400,
@@ -278,14 +278,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                     Text(
                                       'Celebrate with our premium packages',
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 11,
+                                      style: AppTheme.dmSans(
+                                        fontSize: context.rf(11),
                                         color: Colors.white.withValues(alpha: 0.9),
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      padding: EdgeInsets.symmetric(horizontal: context.rw(10), vertical: context.rh(6)),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withValues(alpha: 0.2),
                                         borderRadius: BorderRadius.circular(4),
@@ -293,8 +293,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                       ),
                                       child: Text(
                                         'Explore',
-                                        style: GoogleFonts.dmSans(
-                                          fontSize: 11,
+                                        style: AppTheme.dmSans(
+                                          fontSize: context.rf(11),
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
                                         ),
@@ -320,12 +320,12 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildCategoryItem(Category category) {
+  Widget _buildCategoryItem(BuildContext context, Category category) {
     return Column(
       children: [
         Container(
-          width: 72,
-          height: 72,
+          width: context.rw(72),
+          height: context.rw(72),
           decoration: BoxDecoration(
             color: const Color(0xFF5A8A7F).withValues(alpha: 0.15),
             shape: BoxShape.circle,
@@ -337,18 +337,18 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Center(
             child: Text(
               category.icon,
-              style: const TextStyle(fontSize: 28),
+              style: TextStyle(fontSize: context.rf(28)),
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: context.rh(8)),
         SizedBox(
-          width: 78,
+          width: context.rw(78),
           child: Text(
             category.name,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            style: AppTheme.dmSans(
+              fontSize: context.rf(11),
               fontWeight: FontWeight.w400,
               color: Colors.black87,
             ),
@@ -358,9 +358,9 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildProductCard(Product product) {
+  Widget _buildProductCard(BuildContext context, Product product) {
     return Container(
-      width: 145,
+      width: context.rw(145),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(4),
@@ -377,7 +377,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           // Product image
           Container(
-            height: 105,
+            height: context.rh(105),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: const BorderRadius.only(
@@ -402,7 +402,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(context.rw(8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -410,25 +410,25 @@ class _SearchScreenState extends State<SearchScreen> {
                   product.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(11),
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: context.rh(4)),
                 Text(
                   product.price,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(11),
                     fontWeight: FontWeight.w500,
                     color: AppTheme.primaryTeal,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: context.rh(6)),
                 SizedBox(
                   width: double.infinity,
-                  height: 24,
+                  height: context.rh(24),
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -440,8 +440,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     child: Text(
                       'Add',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 10,
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(10),
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../utils/responsive.dart';
 
 class OfficeInterestsScreen extends StatefulWidget {
   const OfficeInterestsScreen({super.key});
@@ -48,7 +48,7 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                   children: [
                     Image.asset(
                       'assets/wlogo.png',
-                      height: 32,
+                      height: context.rh(32),
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(width: 8),
@@ -66,12 +66,12 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                 // Heading (using Playfair Display like login page)
                 Text(
                   'Office\nInterests...',
-                  style: GoogleFonts.newsreader(
-                    textStyle: AppTheme.heading1.copyWith(
-                      fontSize: 59,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  style: AppTheme.newsreader(
+                    fontSize: context.rf(59, minScale: 0.6, maxScale: 1.0),
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.white,
+                    height: 1,
                   ),
                 ),
                 SizedBox(height: size.height * 0.02),
@@ -79,12 +79,10 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                 // Subtitle (using Playfair Display)
                 Text(
                   'Manage your office space through one place via the sub800 app',
-                  style: GoogleFonts.dmSans(
-                    textStyle: AppTheme.subtitle.copyWith(
-                      color: AppTheme.lightGray,
-                    ),
-                    fontSize: 16,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(16),
                     fontWeight: FontWeight.w400,
+                    color: AppTheme.lightGray,
                   ),
                 ),
                 SizedBox(height: size.height * 0.04),
@@ -97,8 +95,7 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: size.width * 0.01,
                     mainAxisSpacing: size.height * 0.01,
-                    // childAspectRatio: 3.2,
-                    mainAxisExtent: 35,
+                    mainAxisExtent: context.rh(42),
                   ),
                   itemCount: interests.length,
                   itemBuilder: (context, index) {
@@ -120,8 +117,8 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                           children: [
                             // Circle checkbox
                             Container(
-                              width: 20,
-                              height: 20,
+                              width: context.rw(20),
+                              height: context.rw(20),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
@@ -130,9 +127,9 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                                 ),
                                 color: interest.isSelected ? AppTheme.primaryTeal : Colors.transparent,
                               ),
-                              child: interest.isSelected
-                                  ? const Icon(Icons.check, size: 10, color: Colors.white)
-                                  : null,
+                               child: interest.isSelected
+                                   ? Icon(Icons.check, size: context.rw(10), color: Colors.white)
+                                   : null,
                             ),
                             SizedBox(width: size.width * 0.04),
                             Expanded(
@@ -157,8 +154,8 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -170,14 +167,14 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                         ),
                         child: Text(
                           'Previous',
-                          style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontSize: 12),
+                          style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontSize: context.rf(12)),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/create_password');
@@ -189,7 +186,7 @@ class _OfficeInterestsScreenState extends State<OfficeInterestsScreen> {
                         ),
                         child: Text(
                           'Next',
-                          style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontSize: 12),
+                          style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontSize: context.rf(12)),
                         ),
                       ),
                     ),

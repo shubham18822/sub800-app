@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../config/routes.dart';
+import '../../utils/responsive.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -45,13 +46,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
             Image.asset(
               'assets/wlogo.png',
-              height: 32,
+              height: context.rh(32),
               fit: BoxFit.contain,
             ),
 
             // Optional small message under the centered text
             if (message != null && message.isNotEmpty) ...[
-              const SizedBox(height: 12),
+              SizedBox(height: context.rh(12)),
               Text(
                 message,
                 style: AppTheme.bodySmall.copyWith(

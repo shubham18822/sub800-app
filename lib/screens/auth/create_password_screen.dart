@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../config/routes.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../utils/responsive.dart';
 
 class CreatePasswordScreen extends StatefulWidget {
   const CreatePasswordScreen({super.key});
@@ -46,7 +46,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   children: [
                     Image.asset(
                       'assets/wlogo.png',
-                      height: 32,
+                      height: context.rh(32),
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(width: 8),
@@ -64,12 +64,12 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                 // Heading (using Playfair Display)
                 Text(
                   'Create your\npassword,',
-                  style: GoogleFonts.newsreader(
-                    textStyle: AppTheme.heading1.copyWith(
-                      fontSize: 59,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  style: AppTheme.newsreader(
+                    fontSize: context.rf(59, minScale: 0.6, maxScale: 1.0),
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.white,
+                    height: 1,
                   ),
                 ),
                 SizedBox(height: size.height * 0.02),
@@ -77,19 +77,17 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                 // Subtitle (using Playfair Display)
                 Text(
                   'Manage your office space through one place via the sub800 app',
-                  style: GoogleFonts.dmSans(
-                    textStyle: AppTheme.subtitle.copyWith(
-                      color: AppTheme.lightGray,
-                    ),
-                    fontSize: 16,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(16),
                     fontWeight: FontWeight.w400,
+                    color: AppTheme.lightGray,
                   ),
                 ),
                 SizedBox(height: size.height * 0.08),
 
                 // Password Input
                 SizedBox(
-                  height: 35,
+                  height: context.rh(42),
                   child: TextField(
                   controller: _passwordController,
                   style: AppTheme.bodyRegular.copyWith(color: AppTheme.white),
@@ -145,7 +143,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
 
                 // Confirm Password Input
                 SizedBox(
-                  height: 35,
+                  height: context.rh(42),
                   child: TextField(
                   controller: _confirmPasswordController,
                   style: AppTheme.bodyRegular.copyWith(color: AppTheme.white),
@@ -205,8 +203,8 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           // Go back to Office Interests
@@ -223,15 +221,15 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                           'Previous',
                           style: AppTheme.buttonText.copyWith(
                             color: AppTheme.primaryTeal,
-                            fontSize: 12,
+                            fontSize: context.rf(12),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () async {
                           final pwd = _passwordController.text.trim();
@@ -277,7 +275,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                           'Submit',
                           style: AppTheme.buttonText.copyWith(
                             color: AppTheme.primaryTeal,
-                            fontSize: 12,
+                            fontSize: context.rf(12),
                           ),
                         ),
                       ),

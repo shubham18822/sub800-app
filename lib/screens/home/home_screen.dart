@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../config/routes.dart';
 import '../../models/category_model.dart';
+import '../../utils/responsive.dart';
+import '../../widgets/app_bottom_nav_bar.dart';
+import '../../widgets/app_header_search.dart';
+import 'shop_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
+    return IndexedStack(
+      index: _selectedIndex,
+      children: [
+        _buildHomeTab(),
+        ShopScreen(
+          currentIndex: _selectedIndex,
+          onNavTap: _onBottomNavTapped,
+        ),
+        _buildMyWorkspaceTab(),
+        _buildBasketTab(),
+        _buildMoreTab(),
+      ],
+    );
+  }
+
+  void _onBottomNavTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget _buildHomeTab() {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -25,37 +56,46 @@ class HomeScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 16),
 
-                // Top row: left logo (32px) and right search icon
-                Row(
-                  children: [
-                    Image.asset('assets/logo.png', height: 32, fit: BoxFit.contain),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, Routes.search),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
-                        ),
-                        child: const Center(child: Icon(Icons.search, size: 18, color: Colors.black54)),
-                      ),
-                    ),
-                  ],
+                const AppHeaderSearch(
+                  padding: EdgeInsets.zero,
                 ),
 
                 const SizedBox(height: 20),
 
                 // Welcome heading
-                Text(
-                  'Welcome back, Aditya',
-                  style: GoogleFonts.newsreader(
-                    textStyle: const TextStyle(color: AppTheme.primaryTeal),
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w400,
+
+                // Text(
+                //   'Welcome back,',
+                //   style: GoogleFonts.newsreader(
+                //     textStyle: const TextStyle(color: AppTheme.primaryTeal),
+                //     fontSize: 20,
+                //     fontStyle: FontStyle.italic,
+                //     fontWeight: FontWeight.w400,
+                //   ),
+                // ),
+
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Welcome back, ',
+                        style: AppTheme.newsreader(
+                          fontSize: context.rf(20),
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Aditya',
+                        style: AppTheme.newsreader(
+                          fontSize: context.rf(20),
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          color: AppTheme.primaryTeal,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -65,25 +105,25 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Shop Categories',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black87,
-                      ),
-                    ),
+                     Text(
+                       'Shop Categories',
+                       style: AppTheme.dmSans(
+                         fontSize: context.rf(12),
+                         fontWeight: FontWeight.w400,
+                         color: Colors.black87,
+                       ),
+                     ),
+
                     GestureDetector(
                       onTap: () {},
                       child: Text(
-                        'See all',
-                        style: GoogleFonts.dmSans(
-                          fontSize: 6,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey[400],
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
+                         'See all',
+                         style: AppTheme.dmSans(
+                           fontSize: context.rf(8),
+                           fontWeight: FontWeight.w400,
+                           color: Colors.grey[400] ?? Colors.grey,
+                         ).copyWith(decoration: TextDecoration.underline),
+                       ),
                     ),
                   ],
                 ),
@@ -92,11 +132,11 @@ class HomeScreen extends StatelessWidget {
 
                 // Categories (horizontal scrolling circles with real names)
                 SizedBox(
-                  height: 115,
+                  height: context.rh(115),
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: mockCategories.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    separatorBuilder: (_, __) => SizedBox(width: context.rw(8)),
                     itemBuilder: (context, index) {
                       final category = mockCategories[index];
                       return _buildCategoryItem(category);
@@ -109,19 +149,19 @@ class HomeScreen extends StatelessWidget {
                 // New Arrivals heading
                 Text(
                   'New Arrivals',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 15,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(15),
                     fontWeight: FontWeight.w600,
                     color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Discover the newest addition to your office well being',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
+                  'Discover the newest arrivals to the sub800 shop for your office and team',
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(12),
                     fontWeight: FontWeight.w400,
-                    color: Colors.grey[600],
+                    color: Colors.grey[600] ?? Colors.grey,
                   ),
                 ),
 
@@ -129,11 +169,11 @@ class HomeScreen extends StatelessWidget {
 
                 // Horizontal product cards
                 SizedBox(
-                  height: 220,
+                  height: context.rh(240),
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: mockProducts.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    separatorBuilder: (_, __) => SizedBox(width: context.rw(10)),
                     itemBuilder: (context, index) {
                       final product = mockProducts[index];
                       return _buildProductCard(product);
@@ -143,128 +183,17 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                // Promotional banners (2 side by side)
+                // Promotional banners (scrollable horizontal)
                 SizedBox(
-                  height: 180,
-                  child: Row(
-                    children: [
-                      // Left banner (beige/tan)
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFFC9B8A3),
-                          ),
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 140,
-                                      child: Text(
-                                        'Explore Signature Scents for Your Office',
-                                        style: GoogleFonts.newsreader(
-                                          fontSize: 16,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Bring a sense of calm to your workspace',
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 11,
-                                        color: Colors.white.withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Text(
-                                        'Discover',
-                                        style: GoogleFonts.dmSans(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      // Right banner (dark blue/black)
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color(0xFF2C3E50),
-                          ),
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 140,
-                                      child: Text(
-                                        'New Collection Now Available',
-                                        style: GoogleFonts.newsreader(
-                                          fontSize: 16,
-                                          fontStyle: FontStyle.italic,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Celebrate with our premium packages',
-                                      style: GoogleFonts.dmSans(
-                                        fontSize: 11,
-                                        color: Colors.white.withValues(alpha: 0.9),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.2),
-                                        borderRadius: BorderRadius.circular(4),
-                                        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                                      ),
-                                      child: Text(
-                                        'Explore',
-                                        style: GoogleFonts.dmSans(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                  height: context.rh(180),
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mockPromotions.length,
+                    separatorBuilder: (_, __) => SizedBox(width: context.rw(10)),
+                    itemBuilder: (context, index) {
+                      final promotion = mockPromotions[index];
+                      return _buildPromotionBanner(promotion);
+                    },
                   ),
                 ),
 
@@ -274,19 +203,9 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: AppTheme.primaryTeal,
-        unselectedItemColor: Colors.grey[400],
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Shop'),
-          BottomNavigationBarItem(icon: Icon(Icons.grid_view_outlined), label: 'My Workspace'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_basket_outlined), label: 'Basket'),
-          BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
-        ],
-        currentIndex: 0,
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onBottomNavTapped,
       ),
     );
   }
@@ -314,8 +233,8 @@ class HomeScreen extends StatelessWidget {
         // ),
 
         Container(
-          width: 72,
-          height: 72,
+          width: context.rw(72),
+          height: context.rw(72),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
@@ -324,14 +243,14 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: context.rh(8)),
         SizedBox(
-          width: 78,
+          width: context.rw(78),
           child: Text(
             category.name,
             textAlign: TextAlign.center,
-            style: GoogleFonts.dmSans(
-              fontSize: 11,
+            style: AppTheme.dmSans(
+              fontSize: context.rf(11),
               fontWeight: FontWeight.w400,
               color: Color(0xFF345556),
             ),
@@ -343,14 +262,14 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildProductCard(Product product) {
     return Container(
-      width: 145,
+      width: context.rw(145),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 4,
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 0,
             offset: const Offset(0, 1),
           ),
         ],
@@ -360,18 +279,19 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Product image
           Container(
-            height: 105,
+            height: context.rh(115),
+            width: context.rw(140),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4),
-                topRight: Radius.circular(4),
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(0),
               ),
             ),
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4),
-                topRight: Radius.circular(4),
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(0),
               ),
               child: Image.asset(
                 product.image,
@@ -385,7 +305,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(context.rw(8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -393,48 +313,229 @@ class HomeScreen extends StatelessWidget {
                   product.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(8),
+                    fontWeight: FontWeight.w400,
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: context.rh(3)),
+
+                Row(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Color(0xff6F8E95),
+                      size: context.rw(6),
+                    ),
+                    SizedBox(width: context.rw(4)),
+
+                    Text(
+                      '5.0 Rating',
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(6),
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: context.rh(5)),
+
+                Text(
+                  'Requires 2 days notice',
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(6),
+                    color: Colors.black87,
+                  ),
+                ),
+
+                SizedBox(height: context.rh(10)),
+
                 Text(
                   product.price,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 11,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(10),
                     fontWeight: FontWeight.w500,
                     color: AppTheme.primaryTeal,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: context.rh(6)),
                 SizedBox(
-                  width: double.infinity,
-                  height: 24,
+                  width: context.rw(145),
+                  height: context.rh(24),
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryTeal,
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(0),
                       ),
                     ),
                     child: Text(
-                      'Add',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+                       'Add',
+                       style: AppTheme.dmSans(
+                         fontSize: context.rf(10),
+                         fontWeight: FontWeight.w500,
+                         color: Colors.white,
+                       ),
+                     ),
                   ),
                 ),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildPromotionBanner(Promotion promotion) {
+    return Container(
+      width: context.rw(280),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(0),
+        color: Color(int.parse('0xFF${promotion.backgroundColor.substring(1)}')),
+      ),
+      child: Stack(
+        children: [
+          // Background image
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(0),
+              image: DecorationImage(
+                image: AssetImage(promotion.backgroundImage),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                  Colors.black.withValues(alpha: 0.4),
+                  BlendMode.multiply,
+                ),
+              ),
+            ),
+          ),
+          // Text overlay
+          Padding(
+            padding: EdgeInsets.all(context.rw(16)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: context.rw(220),
+                  child: Text(
+                    promotion.title,
+                    style: AppTheme.newsreader(
+                      fontSize: context.rf(16),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      promotion.subtitle,
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(11),
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: context.rh(12)),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.rw(10),
+                        vertical: context.rh(6),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(0),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                      ),
+                      child: Text(
+                        promotion.buttonText,
+                        style: AppTheme.dmSans(
+                          fontSize: context.rf(11),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMyWorkspaceTab() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'My Workspace',
+            style: AppTheme.dmSans(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onBottomNavTapped,
+      ),
+    );
+  }
+
+  Widget _buildBasketTab() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'Basket',
+            style: AppTheme.dmSans(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onBottomNavTapped,
+      ),
+    );
+  }
+
+  Widget _buildMoreTab() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: Text(
+            'More',
+            style: AppTheme.dmSans(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onBottomNavTapped,
       ),
     );
   }

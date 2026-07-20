@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
+import '../../utils/responsive.dart';
 
 class WelcomeBackScreen extends StatefulWidget {
   const WelcomeBackScreen({super.key});
@@ -37,7 +38,7 @@ class _WelcomeBackScreenState extends State<WelcomeBackScreen> {
                 SizedBox(height: size.height * 0.04),
                 Image.asset(
                   'assets/wlogo.png',
-                  height: 32,
+                  height: context.rh(32),
                   fit: BoxFit.contain,
                 ),
                 SizedBox(height: size.height * 0.08),
@@ -88,7 +89,7 @@ class _WelcomeBackScreenState extends State<WelcomeBackScreen> {
                       Icon(
                         Icons.check_circle,
                         color: AppTheme.successGreen,
-                        size: 20,
+                        size: context.rw(20),
                       ),
                     ],
                   ),
@@ -159,7 +160,7 @@ class _WelcomeBackScreenState extends State<WelcomeBackScreen> {
                 // Login Button
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
+                  height: context.rh(48),
                   child: ElevatedButton(
                     onPressed: () {
                       // Navigate directly to loading screen and pass a message

@@ -69,5 +69,39 @@ class AppTheme {
     fontWeight: FontWeight.w600,
     color: white,
   );
+
+  static TextStyle newsreader({
+    required double fontSize,
+    FontStyle fontStyle = FontStyle.normal,
+    FontWeight fontWeight = FontWeight.w400,
+    Color color = white,
+    double? height,
+  }) {
+    return TextStyle(
+      fontFamily: 'Newsreader',
+      fontSize: fontSize,
+      fontStyle: fontStyle,
+      fontWeight: fontWeight,
+      color: color,
+      height: height,
+    );
+  }
+
+  static TextStyle dmSans({
+    required double fontSize,
+    FontStyle fontStyle = FontStyle.normal,
+    FontWeight fontWeight = FontWeight.w400,
+    Color color = white,
+    double? height,
+  }) {
+    return TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: fontSize,
+      fontStyle: fontStyle,
+      fontWeight: fontWeight,
+      color: color,
+      height: height,
+    );
+  }
 }
 

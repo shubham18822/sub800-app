@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../config/routes.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../utils/responsive.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -26,33 +26,31 @@ class LandingScreen extends StatelessWidget {
                     // Logo
                     Image.asset(
                       'assets/wlogo.png',
-                      height: 32,
+                      height: context.rh(32),
                       fit: BoxFit.contain,
                     ),
-                    SizedBox(height: size.height * 0.25),
+                    SizedBox(height: size.height * 0.16),
 
                     // Heading
                     Text(
                       'Your Space,\nOur Services',
-                      style: GoogleFonts.newsreader(
-                        textStyle: AppTheme.heading1.copyWith(
-                          fontSize: 59,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      textScaler: const TextScaler.linear(1.0),
+                      maxLines: 2,
+                      style: AppTheme.newsreader(
+                        fontSize: context.rf(59, minScale: 0.6, maxScale: 1.0),
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        color: AppTheme.white,
+                        height: 1,
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
                     Text(
                       'Manage your office space through one place via the sub800 app',
-                      style: GoogleFonts.dmSans(
-                        textStyle: AppTheme.subtitle.copyWith(
-                          // keep subtitle color from AppTheme.subtitle
-                          color: AppTheme.lightGray,
-                          fontStyle: FontStyle.normal,
-                        ),
-                        fontSize: 16,
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(16),
                         fontWeight: FontWeight.w400,
+                        color: AppTheme.lightGray,
                       ),
                     ),
                   ],
@@ -62,8 +60,8 @@ class LandingScreen extends StatelessWidget {
                 Column(
                   children: [
                     SizedBox(
-                      width: 185,
-                      height: 40,
+                      width: size.width * 0.55,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigate immediately to login screen
@@ -75,13 +73,13 @@ class LandingScreen extends StatelessWidget {
                           elevation: 3,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                         ),
-                        child: Text('Log In', style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontWeight: FontWeight.w400, fontSize: 13)),
+                        child: Text('Log In', style: AppTheme.buttonText.copyWith(color: AppTheme.primaryTeal, fontWeight: FontWeight.w400, fontSize: context.rf(13))),
                       ),
                     ),
                     SizedBox(height: size.height * 0.01),
                     SizedBox(
-                      width: 185,
-                      height: 40,
+                      width: size.width * 0.55,
+                      height: context.rh(40),
                       child: OutlinedButton(
                         onPressed: () {
                           // Just browsing - no navigation for now
@@ -93,7 +91,7 @@ class LandingScreen extends StatelessWidget {
                           side: const BorderSide(color: AppTheme.white, width: 1.5),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                         ),
-                        child: Text('Just Browsing', style: AppTheme.bodyRegular.copyWith(color: AppTheme.primaryTeal, fontWeight: FontWeight.w400, fontSize: 13)),
+                        child: Text('Just Browsing', style: AppTheme.bodyRegular.copyWith(color: AppTheme.primaryTeal, fontWeight: FontWeight.w400, fontSize: context.rf(13))),
                       ),
                     ),
                     SizedBox(height: size.height * 0.04),

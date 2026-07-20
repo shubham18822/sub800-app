@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/theme.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../utils/responsive.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -51,7 +51,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   children: [
                     Image.asset(
                       'assets/wlogo.png',
-                      height: 32,
+                      height: context.rh(32),
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(width: 8),
@@ -69,12 +69,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 // Heading (using Playfair Display)
                 Text(
                   'Create your\naccount,',
-                  style: GoogleFonts.newsreader(
-                    textStyle: AppTheme.heading1.copyWith(
-                      fontSize: 59,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  style: AppTheme.newsreader(
+                    fontSize: context.rf(59, minScale: 0.6, maxScale: 1.0),
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    color: AppTheme.white,
+                    height: 1,
                   ),
                 ),
                 SizedBox(height: size.height * 0.02),
@@ -82,12 +82,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 // Subtitle (using Playfair Display)
                 Text(
                   'Manage your office space through one place via the sub800 app',
-                  style: GoogleFonts.dmSans(
-                    textStyle: AppTheme.subtitle.copyWith(
-                      color: AppTheme.lightGray,
-                    ),
-                    fontSize: 16,
+                  style: AppTheme.dmSans(
+                    fontSize: context.rf(16),
                     fontWeight: FontWeight.w400,
+                    color: AppTheme.lightGray,
                   ),
                 ),
                 SizedBox(height: size.height * 0.03),
@@ -111,8 +109,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -126,17 +124,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                         child: Text(
                           'Cancel',
-                          style: GoogleFonts.dmSans(
+                          style: AppTheme.dmSans(
                             color: AppTheme.primaryTeal,
-                            fontSize: 13,
+                            fontSize: context.rf(13),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     SizedBox(
-                      width: 145,
-                      height: 37,
+                      width: size.width * 0.40,
+                      height: context.rh(40),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/office_interests');
@@ -150,9 +148,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                         child: Text(
                           'Next',
-                          style: GoogleFonts.dmSans(
+                          style: AppTheme.dmSans(
                             color: AppTheme.primaryTeal,
-                            fontSize: 12,
+                            fontSize: context.rf(12),
                           ),
                         ),
                       ),
@@ -170,14 +168,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget _buildInputField(String hint, TextEditingController controller, Size size) {
     // Figma-style input: placeholder inside, thin white outline, transparent fill
     return SizedBox(
-        height: 35,
+        height: size.height * 0.05,
         child:TextField(
       controller: controller,
       style: AppTheme.bodyRegular.copyWith(color: AppTheme.white),
       cursorColor: AppTheme.white,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: AppTheme.bodySmall.copyWith(color: AppTheme.white.withValues(alpha: 0.8), fontSize: 16),
+        hintStyle: AppTheme.bodySmall.copyWith(color: AppTheme.white.withValues(alpha: 0.8), fontSize: size.width * 0.042),
         filled: false,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0),
