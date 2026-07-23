@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../config/theme.dart';
+import '../models/category_model.dart';
 import '../utils/responsive.dart';
 
 class AppBottomNavBar extends StatelessWidget {
@@ -40,36 +41,37 @@ class AppBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          top: BorderSide(
-            color: Color(0xFFD9D9D9),
-            width: 1,
-          ),
-        ),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black.withValues(alpha: 0.08),
-        //     blurRadius: 8,
-        //     offset: const Offset(0, -2),
-        //   ),
-        // ],
-      ),
-      child: Row(
-        children: List.generate(
-          _items.length,
-          (index) => Expanded(
-            child: _buildNavItem(
-              context: context,
-              item: _items[index],
-              isActive: currentIndex == index,
-              onTap: () => onTap(index),
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+
+    return ValueListenableBuilder<int>(
+      valueListenable: cartChangeNotifier,
+      builder: (context, _, __) {
+        return Container(
+          padding: EdgeInsets.only(bottom: bottomInset),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFFD9D9D9),
+                width: 1,
+              ),
             ),
           ),
-        ),
-      ),
+          child: Row(
+            children: List.generate(
+              _items.length,
+              (index) => Expanded(
+                child: _buildNavItem(
+                  context: context,
+                  item: _items[index],
+                  isActive: currentIndex == index,
+                  onTap: () => onTap(index),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -106,10 +108,28 @@ class AppBottomNavBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  isActive && item.activeIcon != null ? item.activeIcon : item.icon,
-                  size: context.rw(24),
-                  color: isActive ? AppTheme.primaryTeal : Colors.grey[400],
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Icon(
+                      isActive && item.activeIcon != null ? item.activeIcon : item.icon,
+                      size: context.rw(24),
+                      color: isActive ? AppTheme.primaryTeal : Colors.grey[400],
+                    ),
+                    if (item.label == 'Basket' && globalCart.isNotEmpty)
+                      Positioned(
+                        top: -context.rh(8),
+                        right: -context.rw(6),
+                        child: Container(
+                          width: context.rw(10),
+                          height: context.rw(10),
+                          decoration: const BoxDecoration(
+                            color: AppTheme.appTheme,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 SizedBox(height: context.rh(4)),
                 Text(

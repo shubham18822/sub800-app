@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Subcategory {
   final String name;
   final String icon;
@@ -28,6 +30,7 @@ class Product {
   final String image;
   final String category;
   final bool isStarred;
+  final List<String>? colors; // Hex color codes like ['#1E7A8C', '#4CAF50', '#FF9800']
 
   Product({
     required this.name,
@@ -35,7 +38,26 @@ class Product {
     required this.image,
     required this.category,
     this.isStarred = false,
+    this.colors,
   });
+}
+
+class CartItem {
+  final Product product;
+  int quantity;
+
+  CartItem({
+    required this.product,
+    this.quantity = 1,
+  });
+}
+
+// Simple global cart for demo
+final List<CartItem> globalCart = [];
+final ValueNotifier<int> cartChangeNotifier = ValueNotifier<int>(0);
+
+void notifyCartChanged() {
+  cartChangeNotifier.value++;
 }
 
 class Promotion {
@@ -211,6 +233,57 @@ final List<Product> mockCateringProducts = [
     isStarred: true,
     image: 'assets/raspberry.png',
     category: 'Catering',
+  ),
+];
+
+final List<Product> mockFurnitureProducts = [
+  Product(
+    name: 'Office Chair with\n White Frame',
+    price: '£100',
+    isStarred: true,
+    image: 'assets/chair.png',
+    category: 'Desk Chairs',
+    colors: ['#4CAF50', '#FF9800'],
+  ),
+  Product(
+    name: 'Premium Leather\nExecutive Chair',
+    price: '£199',
+    isStarred: true,
+    image: 'assets/desk.png',
+    category: 'Desk Chairs',
+    colors: ['#2C3E50', '#8B4513', '#34495E'],
+  ),
+  Product(
+    name: 'Modern Gaming\nStyle Chair',
+    price: '£159',
+    isStarred: true,
+    image: 'assets/grass.png',
+    category: 'Desk Chairs',
+    colors: ['#E74C3C', '#000000', '#3498DB'],
+  ),
+  Product(
+    name: 'Compact Office\nDesk Chair',
+    price: '£89',
+    isStarred: true,
+    image: 'assets/cake.png',
+    category: 'Desk Chairs',
+    colors: ['#95A5A6', '#F39C12', '#16A085'],
+  ),
+  Product(
+    name: 'Lumbar Support\nTask Chair',
+    price: '£149',
+    isStarred: true,
+    image: 'assets/lemon.png',
+    category: 'Desk Chairs',
+    colors: ['#D35400', '#C0392B', '#27AE60'],
+  ),
+  Product(
+    name: 'Adjustable Height\nDesk Chair',
+    price: '£179',
+    isStarred: true,
+    image: 'assets/raspberry.png',
+    category: 'Desk Chairs',
+    colors: ['#2980B9', '#8E44AD', '#22313F'],
   ),
 ];
 

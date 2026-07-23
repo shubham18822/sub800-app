@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
@@ -67,7 +68,7 @@ class SubCategoryScreen extends StatelessWidget {
         currentIndex: currentNavIndex,
         onTap: (i) {
           onNavTap(i);
-          Navigator.of(context).pop();
+          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
         },
       ),
     );
@@ -85,6 +86,18 @@ class SubCategoryScreen extends StatelessWidget {
                     title: 'Catering',
                     resultsText: '24 results',
                     products: mockCateringProducts,
+                    currentNavIndex: currentNavIndex,
+                    onNavTap: onNavTap,
+                  ),
+                ),
+              );
+            } else if (sub.name == 'Desk Chairs') {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ProductBrowsingScreen(
+                    title: 'Desk Chairs',
+                    resultsText: '12 results',
+                    products: mockFurnitureProducts,
                     currentNavIndex: currentNavIndex,
                     onNavTap: onNavTap,
                   ),

@@ -5,6 +5,8 @@ import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
 import 'shop_screen.dart';
+import 'basket_screen.dart';
+import 'more_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,82 +57,35 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 16),
-
                 const AppHeaderSearch(
                   padding: EdgeInsets.zero,
                 ),
-
                 const SizedBox(height: 20),
-
-                // Welcome heading
-
-                // Text(
-                //   'Welcome back,',
-                //   style: GoogleFonts.newsreader(
-                //     textStyle: const TextStyle(color: AppTheme.primaryTeal),
-                //     fontSize: 20,
-                //     fontStyle: FontStyle.italic,
-                //     fontWeight: FontWeight.w400,
-                //   ),
-                // ),
-
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Welcome back, ',
-                        style: AppTheme.newsreader(
-                          fontSize: context.rf(20),
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Aditya',
-                        style: AppTheme.newsreader(
-                          fontSize: context.rf(20),
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w400,
-                          color: AppTheme.primaryTeal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // "Shop Categories" header with "See all" link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
-                       'Shop Categories',
-                       style: AppTheme.dmSans(
-                         fontSize: context.rf(12),
-                         fontWeight: FontWeight.w400,
-                         color: Colors.black87,
-                       ),
-                     ),
-
+                    Text(
+                      'Shop Categories',
+                      style: AppTheme.dmSans(
+                        fontSize: context.rf(12),
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87,
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {},
                       child: Text(
-                         'See all',
-                         style: AppTheme.dmSans(
-                           fontSize: context.rf(8),
-                           fontWeight: FontWeight.w400,
-                           color: Colors.grey[400] ?? Colors.grey,
-                         ).copyWith(decoration: TextDecoration.underline),
-                       ),
+                        'See all',
+                        style: AppTheme.dmSans(
+                          fontSize: context.rf(8),
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey[400] ?? Colors.grey,
+                        ).copyWith(decoration: TextDecoration.underline),
+                      ),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 12),
-
-                // Categories (horizontal scrolling circles with real names)
                 SizedBox(
                   height: context.rh(115),
                   child: ListView.separated(
@@ -143,10 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 28),
-
-                // New Arrivals heading
                 Text(
                   'New Arrivals',
                   style: AppTheme.dmSans(
@@ -164,10 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.grey[600] ?? Colors.grey,
                   ),
                 ),
-
                 const SizedBox(height: 12),
-
-                // Horizontal product cards
                 SizedBox(
                   height: context.rh(240),
                   child: ListView.separated(
@@ -180,10 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 24),
-
-                // Promotional banners (scrollable horizontal)
                 SizedBox(
                   height: context.rh(180),
                   child: ListView.separated(
@@ -196,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 32),
               ],
             ),
@@ -278,31 +223,52 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Product image
-          Container(
-            height: context.rh(115),
-            width: context.rw(140),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(0),
+          Stack(
+            children: [
+              Container(
+                height: context.rh(115),
+                width: context.rw(140),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                  ),
+                  child: Image.asset(
+                    product.image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.image_not_supported, color: Colors.grey[400]),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(0),
+              Positioned(
+                top: context.rh(8),
+                right: context.rw(8),
+                child: Container(
+                  width: context.rw(20),
+                  height: context.rw(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: context.rw(12),
+                    color: Colors.grey,
+                  ),
+                ),
               ),
-              child: Image.asset(
-                product.image,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Center(
-                    child: Icon(Icons.image_not_supported, color: Colors.grey[400]),
-                  );
-                },
-              ),
-            ),
+            ],
           ),
           Padding(
             padding: EdgeInsets.all(context.rw(8)),
@@ -497,46 +463,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildBasketTab() {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Text(
-            'Basket',
-            style: AppTheme.dmSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onBottomNavTapped,
-      ),
+    return BasketScreen(
+      currentNavIndex: _selectedIndex,
+      onNavTap: _onBottomNavTapped,
     );
   }
 
   Widget _buildMoreTab() {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Text(
-            'More',
-            style: AppTheme.dmSans(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: _selectedIndex,
-        onTap: _onBottomNavTapped,
-      ),
+    return MoreScreen(
+      currentNavIndex: _selectedIndex,
+      onNavTap: _onBottomNavTapped,
     );
   }
 }

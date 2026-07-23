@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
+import 'package:sub800_app/screens/home/product_detail_screen.dart';
 
 class ProductBrowsingScreen extends StatefulWidget {
   final String title;
@@ -106,7 +108,7 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Row(
                 children: [
                   _chip(
@@ -137,7 +139,7 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
                       (constraints.maxWidth -
                           ((crossAxisCount - 1) * spacing)) /
                       crossAxisCount;
-                  final childAspectRatio = cardWidth / context.rh(250);
+                  final childAspectRatio = cardWidth / context.rh(270);
 
                   return GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: context.rw(12)),
@@ -160,7 +162,10 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
       ),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: widget.currentNavIndex,
-        onTap: widget.onNavTap,
+        onTap: (i) {
+          widget.onNavTap(i);
+          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+        },
       ),
     );
   }
@@ -214,15 +219,28 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
   }
 
   Widget _buildProductCard(BuildContext context, Product product) {
-    return Container(
-      color: Colors.white,
-      child: Column(
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ProductDetailScreen(
+              product: product,
+              currentNavIndex: widget.currentNavIndex,
+              onNavTap: widget.onNavTap,
+              relatedProducts: widget.products,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        color: Colors.white,
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
               Container(
-                height: context.rh(100),
+                height: context.rh(140),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
@@ -314,7 +332,18 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
             width: double.infinity,
             height: context.rh(24),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ProductDetailScreen(
+                      product: product,
+                      currentNavIndex: widget.currentNavIndex,
+                      onNavTap: widget.onNavTap,
+                      relatedProducts: widget.products,
+                    ),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryTeal,
                 padding: EdgeInsets.zero,
@@ -333,6 +362,7 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

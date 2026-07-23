@@ -83,6 +83,9 @@ flutter:
     - assets/cake.png
     - assets/scent.png
     - assets/gold.png
+    - assets/chair.png
+    - assets/desk.png
+    - assets/grass.png
 
   fonts:
     - family: Newsreader
