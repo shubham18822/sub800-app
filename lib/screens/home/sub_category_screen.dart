@@ -45,7 +45,7 @@ class SubCategoryScreen extends StatelessWidget {
                     Icons.chevron_left_rounded,
                     size: 24,
                     // color: Colors.black54,
-                    color: const Color(0xFF587B7F),
+                    color: Color(0xFF587B7F),
                   ),
                 ),
               ),

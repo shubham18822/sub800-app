@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
@@ -17,15 +18,18 @@ class PaymentMethodsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.rw(35)),
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 16),
                 const AppHeaderSearch(
                   padding: EdgeInsets.zero,
                 ),
@@ -43,8 +47,8 @@ class PaymentMethodsScreen extends StatelessWidget {
                 SizedBox(height: context.rh(20)),
 
                 // Card details
-                _buildPaymentField(context, 'Card Number', '2342356 5434 24234'),
-                _buildPaymentField(context, 'Expiry Date', '05/2028'),
+                _buildPaymentField(context, 'Card Number', '234234 5434 241341'),
+                _buildPaymentField(context, 'Expiry Date', '01/2028'),
                 _buildPaymentField(context, 'CVV Number', '231'),
                 _buildPaymentField(context, 'Name on Card', 'Mrs Lauren Matthews'),
 
@@ -74,12 +78,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                 // Address card
                 Container(
                   width: double.infinity,
-                  // padding: EdgeInsets.all(context.rw(12)),
                   decoration: BoxDecoration(
-                    // border: Border.all(
-                    //   color: Colors.grey[300] ?? Colors.grey,
-                    //   width: 1,
-                    // ),
                     borderRadius: BorderRadius.circular(2),
                   ),
                   child: Column(
@@ -89,7 +88,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: context.rw(120),
+                            width: context.rw(130),
                             child: Text(
                               'Name',
                               style: AppTheme.dmSans(
@@ -111,12 +110,12 @@ class PaymentMethodsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: context.rh(20)),
+                      SizedBox(height: context.rh(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: context.rw(120),
+                            width: context.rw(130),
                             child: Text(
                               'Address',
                               style: AppTheme.dmSans(
@@ -128,7 +127,7 @@ class PaymentMethodsScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              '47-53 St John\'s Street, London, ECIM 4AN',
+                              '47–53 St John\'s Street, London, EC1M 4AN',
                               style: AppTheme.dmSans(
                                 fontSize: context.rf(11),
                                 fontWeight: FontWeight.w400,
@@ -150,7 +149,10 @@ class PaymentMethodsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: currentNavIndex,
-        onTap: onNavTap,
+        onTap: (i) {
+          onNavTap(i);
+          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+        },
       ),
     );
   }

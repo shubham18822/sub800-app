@@ -14,7 +14,8 @@ class AppTheme {
   static const Color offWhite = Color(0xFFF5F5F5);
   static const Color lightGray = Color(0xFFFBF9F9);
   static const Color darkGray = Color(0xFF666666);
-  static const Color textDark = Color(0xFF333333);
+  static const Color textDark = Color(0xFF1F2023);
+  static const Color textMuted = Color(0xFF7A9AA0);
 
   // Status Colors
   static const Color successGreen = Color(0xFF4CAF50);

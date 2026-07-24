@@ -53,11 +53,18 @@ class CartItem {
 }
 
 // Simple global cart for demo
-final List<CartItem> globalCart = [];
+final List<CartItem> globalCart = [
+  CartItem(product: mockProducts[0], quantity: 1),
+  CartItem(product: mockProducts[1], quantity: 1),
+];
 final ValueNotifier<int> cartChangeNotifier = ValueNotifier<int>(0);
 
 void notifyCartChanged() {
   cartChangeNotifier.value++;
+}
+
+int getCartItemCount() {
+  return globalCart.fold<int>(0, (sum, item) => sum + item.quantity);
 }
 
 class Promotion {

@@ -262,6 +262,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                           );
 
                           await Future.delayed(const Duration(milliseconds: 800));
+                          if (!context.mounted) return;
                           Navigator.pushReplacementNamed(context, Routes.login);
                         },
                         style: ElevatedButton.styleFrom(

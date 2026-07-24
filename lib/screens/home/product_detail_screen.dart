@@ -6,6 +6,8 @@ import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
+import '../../widgets/product_card.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -506,62 +508,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget _buildProductScroller(List<Product> products) {
     return SizedBox(
-      height: context.rh(190),
+      height: context.rh(180),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: products.length,
         separatorBuilder: (_, __) => SizedBox(width: context.rw(12)),
         itemBuilder: (context, index) {
           final product = products[index];
-          return SizedBox(
-            width: context.rw(160),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: context.rw(160),
-                  height: context.rh(125),
-                  child: Image.asset(
-                    product.image,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[200],
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image_not_supported,
-                          color: Colors.grey[400],
-                        ),
-                      );
-                    },
+          return ProductCard(
+            product: product,
+            showAddButton: false,
+            showFavoriteIcon: false,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ProductDetailScreen(
+                    product: product,
+                    currentNavIndex: widget.currentNavIndex,
+                    onNavTap: widget.onNavTap,
+                    relatedProducts: products,
                   ),
                 ),
-                SizedBox(height: context.rh(8)),
-                Text(
-                  product.name.replaceAll('\n', ' '),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTheme.dmSans(
-                    fontSize: context.rf(10),
-                    color: const Color(0xFF1F2023),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(height: context.rh(4)),
-                Text(
-                  product.price,
-                  style: AppTheme.dmSans(
-                    fontSize: context.rf(18),
-                    color: const Color(0xFF1F2023),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
     );
   }
+
 }
 

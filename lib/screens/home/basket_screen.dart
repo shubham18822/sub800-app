@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
 class BasketScreen extends StatefulWidget {
   final int currentNavIndex;
@@ -41,91 +40,90 @@ class _BasketScreenState extends State<BasketScreen> {
       isScrollControlled: true,
       elevation: 0,
       builder: (ctx) {
-        return SafeArea(
-          child: Container(
-            width: double.infinity,
-            color: AppTheme.appTheme,
-            padding: EdgeInsets.fromLTRB(
-              context.rw(24),
-              context.rh(28),
-              context.rw(24),
-              context.rh(28),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Options',
-                      style: AppTheme.dmSans(
-                        fontSize: context.rf(17),
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => Navigator.of(ctx).pop(),
-                      child: Icon(Icons.close, color: Colors.white, size: context.rw(26)),
-                    ),
-                  ],
-                ),
-                SizedBox(height: context.rh(28)),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(ctx).pop();
-                    setState(() {
-                      _selectedFrequency.remove(item);
-                      globalCart.remove(item);
-                    });
-                    notifyCartChanged();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.rh(8)),
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete_outline,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            size: context.rw(22)),
-                        SizedBox(width: context.rw(22)),
-                        Text('Remove from Bag',
-                            style: AppTheme.dmSans(
-                                fontSize: context.rf(14),
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white)),
-                      ],
+        final bottomInset = MediaQuery.of(ctx).padding.bottom;
+        return Container(
+          width: double.infinity,
+          color: AppTheme.appTheme,
+          padding: EdgeInsets.fromLTRB(
+            context.rw(24),
+            context.rh(24),
+            context.rw(24),
+            context.rh(24) + bottomInset,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Options',
+                    style: AppTheme.dmSans(
+                      fontSize: context.rf(17),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
-                ),
-                SizedBox(height: context.rh(10)),
-                Divider(height: 1, thickness: 1, color: Colors.white.withValues(alpha: 0.45)),
-                SizedBox(height: context.rh(10)),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(ctx).pop();
-                    _openQuantitySheet(item);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: context.rh(8)),
-                    child: Row(
-                      children: [
-                        Icon(Icons.unfold_more,
-                            color: Colors.white.withValues(alpha: 0.9),
-                            size: context.rw(22)),
-                        SizedBox(width: context.rw(22)),
-                        Text('Change Quantity',
-                            style: AppTheme.dmSans(
-                                fontSize: context.rf(14),
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white)),
-                      ],
-                    ),
+                  InkWell(
+                    onTap: () => Navigator.of(ctx).pop(),
+                    child: Icon(Icons.close, color: Colors.white, size: context.rw(24)),
+                  ),
+                ],
+              ),
+              SizedBox(height: context.rh(24)),
+              InkWell(
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  setState(() {
+                    _selectedFrequency.remove(item);
+                    globalCart.remove(item);
+                  });
+                  notifyCartChanged();
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.rh(8)),
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          size: context.rw(20)),
+                      SizedBox(width: context.rw(16)),
+                      Text('Remove from Bag',
+                          style: AppTheme.dmSans(
+                              fontSize: context.rf(14),
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: context.rh(8)),
+              Divider(height: 1, thickness: 0.8, color: Colors.white.withValues(alpha: 0.45)),
+              SizedBox(height: context.rh(8)),
+              InkWell(
+                onTap: () {
+                  Navigator.of(ctx).pop();
+                  _openQuantitySheet(item);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.rh(8)),
+                  child: Row(
+                    children: [
+                      Icon(Icons.unfold_more,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          size: context.rw(20)),
+                      SizedBox(width: context.rw(16)),
+                      Text('Change Quantity',
+                          style: AppTheme.dmSans(
+                              fontSize: context.rf(14),
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -139,106 +137,105 @@ class _BasketScreenState extends State<BasketScreen> {
       isScrollControlled: true,
       elevation: 0,
       builder: (ctx) {
+        final bottomInset = MediaQuery.of(ctx).padding.bottom;
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return SafeArea(
-              child: Container(
-                width: double.infinity,
-                color: AppTheme.appTheme,
-                padding: EdgeInsets.fromLTRB(
-                  context.rw(22),
-                  context.rh(24),
-                  context.rw(22),
-                  context.rh(24),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.of(ctx).pop(),
-                          child: Icon(Icons.arrow_back_ios_new,
-                              color: Colors.white, size: context.rw(20)),
-                        ),
-                        const Spacer(),
-                        Text('Quantity',
-                            style: AppTheme.dmSans(
-                                fontSize: context.rf(18),
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white)),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () => Navigator.of(ctx).pop(),
-                          child: Icon(Icons.close,
-                              color: Colors.white, size: context.rw(26)),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: context.rh(28)),
-                    SizedBox(
-                      height: context.rh(38),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(15, (index) {
-                            final qty = index + 1;
-                            final isSelected = qty == selectedQuantity;
-                            return Padding(
-                              padding: EdgeInsets.only(right: context.rw(18)),
-                              child: GestureDetector(
-                                onTap: () => setModalState(() => selectedQuantity = qty),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text('$qty',
-                                        style: AppTheme.dmSans(
-                                            fontSize: context.rf(15),
-                                            fontWeight: isSelected
-                                                ? FontWeight.w600
-                                                : FontWeight.w400,
-                                            color: Colors.white)),
-                                    SizedBox(height: context.rh(4)),
-                                    Container(
-                                      width: context.rw(16),
-                                      height: 2,
-                                      color: isSelected
-                                          ? Colors.white
-                                          : Colors.transparent,
-                                    ),
-                                  ],
-                                ),
+            return Container(
+              width: double.infinity,
+              color: AppTheme.appTheme,
+              padding: EdgeInsets.fromLTRB(
+                context.rw(22),
+                context.rh(24),
+                context.rw(22),
+                context.rh(24) + bottomInset,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.of(ctx).pop(),
+                        child: Icon(Icons.chevron_left,
+                            color: Colors.white, size: context.rw(24)),
+                      ),
+                      const Spacer(),
+                      Text('Quantity',
+                          style: AppTheme.dmSans(
+                              fontSize: context.rf(17),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () => Navigator.of(ctx).pop(),
+                        child: Icon(Icons.close,
+                            color: Colors.white, size: context.rw(24)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: context.rh(24)),
+                  SizedBox(
+                    height: context.rh(38),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(15, (index) {
+                          final qty = index + 1;
+                          final isSelected = qty == selectedQuantity;
+                          return Padding(
+                            padding: EdgeInsets.only(right: context.rw(18)),
+                            child: GestureDetector(
+                              onTap: () => setModalState(() => selectedQuantity = qty),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('$qty',
+                                      style: AppTheme.dmSans(
+                                          fontSize: context.rf(15),
+                                          fontWeight: isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.w400,
+                                          color: Colors.white)),
+                                  SizedBox(height: context.rh(4)),
+                                  Container(
+                                    width: context.rw(16),
+                                    height: 2,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.transparent,
+                                  ),
+                                ],
                               ),
-                            );
-                          }),
-                        ),
+                            ),
+                          );
+                        }),
                       ),
                     ),
-                    SizedBox(height: context.rh(28)),
-                    SizedBox(
-                      width: double.infinity,
-                      height: context.rh(40),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() => item.quantity = selectedQuantity);
-                          notifyCartChanged();
-                          Navigator.of(ctx).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0)),
-                        ),
-                        child: Text('Save',
-                            style: AppTheme.dmSans(
-                                fontSize: context.rf(13),
-                                fontWeight: FontWeight.w500,
-                                color: AppTheme.appTheme)),
+                  ),
+                  SizedBox(height: context.rh(24)),
+                  SizedBox(
+                    width: double.infinity,
+                    height: context.rh(40),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() => item.quantity = selectedQuantity);
+                        notifyCartChanged();
+                        Navigator.of(ctx).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero),
                       ),
+                      child: Text('Save',
+                          style: AppTheme.dmSans(
+                              fontSize: context.rf(13),
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.appTheme)),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },
@@ -348,8 +345,8 @@ class _BasketScreenState extends State<BasketScreen> {
                       elevation: 0,
                       backgroundColor: AppTheme.appTheme,
                       disabledBackgroundColor: const Color(0xFFB3C5C6),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2)),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
                     ),
                     child: Text('Checkout',
                         style: AppTheme.dmSans(
@@ -360,10 +357,6 @@ class _BasketScreenState extends State<BasketScreen> {
                 ),
               ],
             ),
-          ),
-          AppBottomNavBar(
-            currentIndex: widget.currentNavIndex,
-            onTap: widget.onNavTap,
           ),
         ],
       ),

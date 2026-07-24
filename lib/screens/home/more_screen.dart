@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
-import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
 import 'profile_settings_screen.dart';
 import 'payment_methods_screen.dart';
 import 'contracts_invoices_receipts_screen.dart';
 import 'team_settings_screen.dart';
-import 'workspace_analytics_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   final int currentNavIndex;
@@ -51,10 +49,6 @@ class MoreScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: AppBottomNavBar(
-        currentIndex: currentNavIndex,
-        onTap: onNavTap,
       ),
     );
   }
@@ -99,14 +93,7 @@ class MoreScreen extends StatelessWidget {
             ),
           );
         } else if (title == 'Your Workspace Analytics') {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => WorkspaceAnalyticsScreen(
-                currentNavIndex: currentNavIndex,
-                onNavTap: onNavTap,
-              ),
-            ),
-          );
+          onNavTap(2);
         }
       },
       child: Container(

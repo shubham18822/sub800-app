@@ -108,28 +108,52 @@ class AppBottomNavBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Icon(
-                      isActive && item.activeIcon != null ? item.activeIcon : item.icon,
-                      size: context.rw(24),
-                      color: isActive ? AppTheme.primaryTeal : Colors.grey[400],
-                    ),
-                    if (item.label == 'Basket' && globalCart.isNotEmpty)
-                      Positioned(
-                        top: -context.rh(8),
-                        right: -context.rw(6),
-                        child: Container(
-                          width: context.rw(10),
-                          height: context.rw(10),
-                          decoration: const BoxDecoration(
-                            color: AppTheme.appTheme,
-                            shape: BoxShape.circle,
-                          ),
+                Builder(
+                  builder: (context) {
+                    final cartCount = getCartItemCount();
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Icon(
+                          isActive && item.activeIcon != null
+                              ? item.activeIcon
+                              : item.icon,
+                          size: context.rw(24),
+                          color:
+                              isActive ? AppTheme.primaryTeal : Colors.grey[400],
                         ),
-                      ),
-                  ],
+                        if (item.label == 'Basket' && cartCount > 0)
+                          Positioned(
+                            top: -context.rh(6),
+                            right: -context.rw(8),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.rw(4),
+                                vertical: context.rh(2),
+                              ),
+                              constraints: BoxConstraints(
+                                minWidth: context.rw(15),
+                                minHeight: context.rw(15),
+                              ),
+                              decoration: const BoxDecoration(
+                                color: AppTheme.appTheme,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '$cartCount',
+                                  style: AppTheme.dmSans(
+                                    fontSize: context.rf(8.5),
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
                 SizedBox(height: context.rh(4)),
                 Text(

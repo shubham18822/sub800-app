@@ -88,24 +88,26 @@ class _AppHeaderSearchState extends State<AppHeaderSearch> {
                             focusNode: _focusNode,
                             onChanged: widget.onChanged,
                             textInputAction: TextInputAction.search,
+                            textAlignVertical: TextAlignVertical.center,
                             style: AppTheme.dmSans(
-                              fontSize: context.rf(14),
+                              fontSize: context.rf(13),
                               color: Colors.black87,
                             ),
                             decoration: InputDecoration(
+                              isDense: true,
                               hintText: widget.hintText,
                               hintStyle: AppTheme.dmSans(
                                 fontSize: context.rf(13),
                                 color: Colors.grey[500] ?? Colors.grey,
                               ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                left: context.rw(14),
-                                right: context.rw(6),
-                                bottom: context.rh(1),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: context.rw(12),
+                                vertical: 0,
                               ),
                             ),
                           ),
+
                         ),
                         Padding(
                           padding: EdgeInsets.only(right: context.rw(10)),

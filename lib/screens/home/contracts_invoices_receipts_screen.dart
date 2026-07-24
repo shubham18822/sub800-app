@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
@@ -75,7 +76,10 @@ class ContractsInvoicesReceiptsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: currentNavIndex,
-        onTap: onNavTap,
+        onTap: (i) {
+          onNavTap(i);
+          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+        },
       ),
     );
   }

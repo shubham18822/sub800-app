@@ -5,7 +5,9 @@ import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
+import '../../widgets/product_card.dart';
 import 'package:sub800_app/screens/home/product_detail_screen.dart';
+
 
 class ProductBrowsingScreen extends StatefulWidget {
   final String title;
@@ -28,6 +30,7 @@ class ProductBrowsingScreen extends StatefulWidget {
 }
 
 class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
+  bool _isGridMode = true;
   RangeValues _priceRange = const RangeValues(1, 100);
   final Set<String> _selectedDietary = {};
   int _selectedRating = 3;
@@ -76,7 +79,7 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
                   Icons.chevron_left_rounded,
                   size: 24,
                   // color: Colors.black54,
-                  color: const Color(0xFF587B7F),
+                  color: Color(0xFF587B7F),
                 ),
               ),
             ),
@@ -124,22 +127,60 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
                     label: 'Sort',
                   ),
                   const Spacer(),
-                  _iconButton(context, Icons.grid_view_rounded),
-                  const SizedBox(width: 8),
-                  _iconButton(context, Icons.view_agenda_rounded),
+                  _iconButton(
+                    context,
+                    _isGridMode ? Icons.view_agenda_rounded : Icons.grid_view_rounded,
+                    isSelected: false,
+                    onTap: () {
+                      setState(() {
+                        _isGridMode = !_isGridMode;
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
+                  if (!_isGridMode) {
+                    return ListView.separated(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.rw(12),
+                        vertical: context.rh(4),
+                      ),
+                      itemCount: widget.products.length,
+                      separatorBuilder: (_, __) => SizedBox(height: context.rh(12)),
+                      itemBuilder: (context, index) {
+                        final product = widget.products[index];
+                        return ProductCard(
+                          product: product,
+                          isGrid: false,
+                          isListRow: true,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailScreen(
+                                  product: product,
+                                  currentNavIndex: widget.currentNavIndex,
+                                  onNavTap: widget.onNavTap,
+                                  relatedProducts: widget.products,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+
                   final crossAxisCount = constraints.maxWidth < 330 ? 1 : 2;
                   final spacing = context.rw(12);
                   final cardWidth =
                       (constraints.maxWidth -
                           ((crossAxisCount - 1) * spacing)) /
                       crossAxisCount;
-                  final childAspectRatio = cardWidth / context.rh(270);
+                  final childAspectRatio = cardWidth / context.rh(280);
 
                   return GridView.builder(
                     padding: EdgeInsets.symmetric(horizontal: context.rw(12)),
@@ -151,7 +192,23 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
                       childAspectRatio: childAspectRatio,
                     ),
                     itemBuilder: (context, index) {
-                      return _buildProductCard(context, widget.products[index]);
+                      final product = widget.products[index];
+                      return ProductCard(
+                        product: product,
+                        isGrid: true,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ProductDetailScreen(
+                                product: product,
+                                currentNavIndex: widget.currentNavIndex,
+                                onNavTap: widget.onNavTap,
+                                relatedProducts: widget.products,
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
                   );
                 },
@@ -206,166 +263,38 @@ class _ProductBrowsingScreenState extends State<ProductBrowsingScreen> {
     );
   }
 
-  Widget _iconButton(BuildContext context, IconData icon) {
-    return Container(
-      width: context.rw(28),
-      height: context.rw(28),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
-        borderRadius: BorderRadius.circular(4),
+  Widget _iconButton(
+    BuildContext context,
+    IconData icon, {
+    bool isSelected = false,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: context.rw(28),
+        height: context.rw(28),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? const Color(0xFF587B7F).withValues(alpha: 0.15)
+              : Colors.transparent,
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFF587B7F)
+                : Colors.grey.withValues(alpha: 0.2),
+          ),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Icon(
+          icon,
+          size: context.rw(16),
+          color: isSelected ? const Color(0xFF587B7F) : Colors.black54,
+        ),
       ),
-      child: Icon(icon, size: context.rw(16), color: Colors.black54),
     );
   }
 
-  Widget _buildProductCard(BuildContext context, Product product) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ProductDetailScreen(
-              product: product,
-              currentNavIndex: widget.currentNavIndex,
-              onNavTap: widget.onNavTap,
-              relatedProducts: widget.products,
-            ),
-          ),
-        );
-      },
-      child: Container(
-        color: Colors.white,
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: context.rh(140),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(0),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(0),
-                  child: Image.asset(
-                    product.image,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(
-                          Icons.image_not_supported,
-                          color: Colors.grey[400],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Positioned(
-                top: context.rh(8),
-                right: context.rw(8),
-                child: Container(
-                  width: context.rw(20),
-                  height: context.rw(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.favorite_border,
-                    size: context.rw(12),
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: context.rh(8)),
-          Text(
-            product.name,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.dmSans(
-              fontSize: context.rf(9),
-              fontWeight: FontWeight.w400,
-              color: Colors.black87,
-            ),
-          ),
-          SizedBox(height: context.rh(4)),
-          Row(
-            children: [
-              Icon(
-                Icons.star,
-                color: const Color(0xFF6F8E95),
-                size: context.rw(10),
-              ),
-              SizedBox(width: context.rw(4)),
-              Text(
-                '5.0 Rating',
-                style: AppTheme.dmSans(
-                  fontSize: context.rf(8),
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: context.rh(4)),
-          Text(
-            'Requires 2 days notice',
-            style: AppTheme.dmSans(
-              fontSize: context.rf(8),
-              color: Colors.black87,
-            ),
-          ),
-          SizedBox(height: context.rh(4)),
-          Text(
-            product.price,
-            style: AppTheme.dmSans(
-              fontSize: context.rf(11),
-              fontWeight: FontWeight.w500,
-              color: AppTheme.primaryTeal,
-            ),
-          ),
-          SizedBox(height: context.rh(4)),
-          SizedBox(
-            width: double.infinity,
-            height: context.rh(24),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ProductDetailScreen(
-                      product: product,
-                      currentNavIndex: widget.currentNavIndex,
-                      onNavTap: widget.onNavTap,
-                      relatedProducts: widget.products,
-                    ),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.primaryTeal,
-                padding: EdgeInsets.zero,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero,
-                ),
-              ),
-              child: Text(
-                'Add',
-                style: AppTheme.dmSans(
-                  fontSize: context.rf(10),
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      ),
-    );
-  }
+
 }
 
 class _FilterBottomSheet extends StatefulWidget {

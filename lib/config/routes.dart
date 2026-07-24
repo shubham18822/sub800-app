@@ -6,7 +6,7 @@ import '../screens/auth/loading_screen.dart';
 import '../screens/auth/create_account_screen.dart';
 import '../screens/auth/office_interests_screen.dart';
 import '../screens/auth/landing_screen.dart';
-import '../screens/home/home_screen.dart';
+import '../screens/main_shell_screen.dart';
 import '../screens/search/search_screen.dart';
 
 class Routes {
@@ -29,9 +29,10 @@ class Routes {
       loading: (context) => const LoadingScreen(),
       createAccount: (context) => const CreateAccountScreen(),
       officeInterests: (context) => const OfficeInterestsScreen(),
-      home: (context) => const HomeScreen(),
+      home: (context) => const MainShellScreen(),
       search: (context) => const SearchScreen(),
     };
   }
 }
+
 

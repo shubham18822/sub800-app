@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
@@ -25,36 +26,34 @@ class ProfileSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.rw(12)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Padding(
-              //   padding: EdgeInsets.only(top: context.rh(6), bottom: context.rh(4)),
-              //   child: Text(
-              //     'Profile Settings',
-              //     style: AppTheme.dmSans(
-              //       fontSize: context.rf(14),
-              //       color: Colors.grey[500] ?? Colors.grey,
-              //     ),
-              //   ),
-              // ),
-              const AppHeaderSearch(
-                padding: EdgeInsets.zero,
-              ),
-              SizedBox(height: context.rh(38)),
-              ..._fields.map((field) => _buildField(context, field)),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+                const AppHeaderSearch(
+                  padding: EdgeInsets.zero,
+                ),
+                SizedBox(height: context.rh(28)),
+                ..._fields.map((field) => _buildField(context, field)),
+              ],
+            ),
           ),
         ),
       ),
       bottomNavigationBar: AppBottomNavBar(
         currentIndex: currentNavIndex,
-        onTap: onNavTap,
+        onTap: (i) {
+          onNavTap(i);
+          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+        },
       ),
     );
   }
