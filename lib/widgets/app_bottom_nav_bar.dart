@@ -82,10 +82,13 @@ class AppBottomNavBar extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
           // Green indicator bar at top
           // Container(
           //   height: context.rh(3, minScale: 0.8, maxScale: 1.1),
@@ -169,6 +172,7 @@ class AppBottomNavBar extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

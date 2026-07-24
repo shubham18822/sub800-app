@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../config/routes.dart';
+
 import '../../config/theme.dart';
 import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
@@ -68,7 +68,7 @@ class SubCategoryScreen extends StatelessWidget {
         currentIndex: currentNavIndex,
         onTap: (i) {
           onNavTap(i);
-          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },
       ),
     );

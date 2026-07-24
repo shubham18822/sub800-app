@@ -7,6 +7,7 @@ import 'profile_settings_screen.dart';
 import 'payment_methods_screen.dart';
 import 'contracts_invoices_receipts_screen.dart';
 import 'team_settings_screen.dart';
+import 'workspace_analytics_screen.dart';
 
 class MoreScreen extends StatelessWidget {
   final int currentNavIndex;
@@ -93,7 +94,14 @@ class MoreScreen extends StatelessWidget {
             ),
           );
         } else if (title == 'Your Workspace Analytics') {
-          onNavTap(2);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => WorkspaceAnalyticsScreen(
+                currentNavIndex: currentNavIndex,
+                onNavTap: onNavTap,
+              ),
+            ),
+          );
         }
       },
       child: Container(

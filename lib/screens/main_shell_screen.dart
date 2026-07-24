@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/app_bottom_nav_bar.dart';
 import 'home/home_screen.dart';
 import 'home/shop_screen.dart';
-import 'home/workspace_analytics_screen.dart';
+import 'home/my_workspace_screen.dart';
 import 'home/basket_screen.dart';
 import 'home/more_screen.dart';
 
@@ -73,7 +73,7 @@ class _MainShellScreenState extends State<MainShellScreen> {
               onNavTap: _onTabTapped,
               onBackTap: _goBackTab,
             ),
-            WorkspaceAnalyticsScreen(
+            MyWorkspaceScreen(
               currentNavIndex: _currentIndex,
               onNavTap: _onTabTapped,
             ),

@@ -82,7 +82,7 @@ class LandingScreen extends StatelessWidget {
                       height: context.rh(40),
                       child: OutlinedButton(
                         onPressed: () {
-                          // Just browsing - no navigation for now
+                          Navigator.pushNamed(context, Routes.home);
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: AppTheme.white,

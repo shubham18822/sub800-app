@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../config/routes.dart';
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_bottom_nav_bar.dart';
@@ -151,7 +150,7 @@ class PaymentMethodsScreen extends StatelessWidget {
         currentIndex: currentNavIndex,
         onTap: (i) {
           onNavTap(i);
-          Navigator.of(context).popUntil(ModalRoute.withName(Routes.home));
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },
       ),
     );

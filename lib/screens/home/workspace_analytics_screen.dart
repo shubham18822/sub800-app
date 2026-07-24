@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../config/theme.dart';
 import '../../utils/responsive.dart';
+import '../../widgets/app_bottom_nav_bar.dart';
 import '../../widgets/app_header_search.dart';
 
 class WorkspaceAnalyticsScreen extends StatelessWidget {
@@ -99,6 +100,13 @@ class WorkspaceAnalyticsScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: currentNavIndex,
+        onTap: (i) {
+          onNavTap(i);
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
       ),
     );
   }

@@ -3,6 +3,7 @@ import '../../config/theme.dart';
 import '../../models/category_model.dart';
 import '../../utils/responsive.dart';
 import '../../widgets/app_header_search.dart';
+import 'delivery_screen.dart';
 class BasketScreen extends StatefulWidget {
   final int currentNavIndex;
   final Function(int) onNavTap;
@@ -340,7 +341,16 @@ class _BasketScreenState extends State<BasketScreen> {
                   width: double.infinity,
                   height: context.rh(38),
                   child: ElevatedButton(
-                    onPressed: globalCart.isEmpty ? null : () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => DeliveryScreen(
+                            currentNavIndex: widget.currentNavIndex,
+                            onNavTap: widget.onNavTap,
+                          ),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: AppTheme.appTheme,
